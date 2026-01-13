@@ -136,6 +136,11 @@ impl<A: Codec> Seq<A> {
         self.bv.shrink_to_fit();
     }
 
+    pub fn shrink_to_exact(&mut self) {
+        // BitVec::from_bitslice creates a new allocation sized to the slice
+        self.bv = Bv::from_bitslice(&self.bv);
+    }
+
     pub fn bit_and(self, rhs: Seq<A>) -> Seq<A> {
         Seq::<A> {
             _p: PhantomData,
