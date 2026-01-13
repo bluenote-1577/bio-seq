@@ -141,6 +141,10 @@ impl<A: Codec> Seq<A> {
         self.bv = Bv::from_bitslice(&self.bv);
     }
 
+    pub fn capacity(&self) -> usize{
+        self.bv.capacity()
+    }
+
     pub fn bit_and(self, rhs: Seq<A>) -> Seq<A> {
         Seq::<A> {
             _p: PhantomData,
