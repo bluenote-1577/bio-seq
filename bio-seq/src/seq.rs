@@ -131,6 +131,11 @@ impl<A: Codec> Seq<A> {
         }
     }
 
+    /// Shrinks the capacity of the sequence as much as possible
+    pub fn shrink_to_fit(&mut self) {
+        self.bv.shrink_to_fit();
+    }
+
     pub fn bit_and(self, rhs: Seq<A>) -> Seq<A> {
         Seq::<A> {
             _p: PhantomData,
