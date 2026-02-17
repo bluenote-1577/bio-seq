@@ -124,6 +124,14 @@ impl<A: Codec> Seq<A> {
             .collect()
     }
 
+    pub fn capacity_capture<I: IntoIterator<Item = A>>(iter: I, size: usize) -> Self {
+        let i = iter.into_iter();
+        let mut seq = Seq::with_capacity(size);
+        seq.extend(i);
+        seq
+    }
+
+
     pub fn with_capacity(len: usize) -> Self {
         Seq {
             _p: PhantomData,
