@@ -124,13 +124,16 @@ impl<A: Codec> Seq<A> {
             .collect()
     }
 
-    pub fn capacity_capture<I: IntoIterator<Item = A>>(iter: I, size: usize) -> Self {
-        let i = iter.into_iter();
+    // Try to convert ASCII bases, throw error if unrecognised base is found. Otherwise return Ok(Seq)
+    pub fn capacity_capture_u8(v: &[u8]) -> Result<Self, ParseBioError> {
+        let size = v.len();
         let mut seq = Seq::with_capacity(size);
-        seq.extend(i);
-        seq
+        for &byte in v {
+            let base = A::try_from_ascii(byte).ok_or(ParseBioError::UnrecognisedBase(byte))?;
+            seq.push(base);
+        }
+        Ok(seq)
     }
-
 
     pub fn with_capacity(len: usize) -> Self {
         Seq {
